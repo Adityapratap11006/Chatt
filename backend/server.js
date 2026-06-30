@@ -1,9 +1,14 @@
-require("dotenv").config();
+import authRoutes from "../backend/src/routes/authRoutes.js"
+import dotenv from "dotenv";
+import ConnectDB from "./src/config/db.js";
+dotenv.config();
 console.log(process.env.MONGO_URI);
-const ConnectDB=require("./src/config/db")
-const express = require("express");
+import express from "express";
+import cors from "cors";
 const app = express();
-
+app.use(cors());
+app.use(express.json());
+app.use("/api/auth",authRoutes)
 app.get("/", (req, res) => {
     res.send("Backend is running...");
 });
