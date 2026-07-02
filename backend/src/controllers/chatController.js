@@ -37,7 +37,7 @@ export const createOrGetChat = async (req, res) => {
   }
 };
 
-import Chat from "../models/Chat.js";
+
 
 export const getChats = async (req, res) => {
   try {
