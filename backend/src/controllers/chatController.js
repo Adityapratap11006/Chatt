@@ -36,3 +36,26 @@ export const createOrGetChat = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+import Chat from "../models/Chat.js";
+
+export const getChats = async (req, res) => {
+  try {
+    const chats = await Chat.find({
+      users: { $in: [req.user.id] },
+    })
+      .populate("users", "name email")
+      .populate({
+        path: "latestMessage",
+        populate: {
+          path: "sender",
+          select: "name email",
+        },
+      })
+      .sort({ updatedAt: -1 });
+
+    res.status(200).json(chats);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
